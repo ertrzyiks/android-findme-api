@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         meta: {
             src: [
                 'index.js',
@@ -8,6 +9,16 @@ module.exports = function(grunt) {
                 'spec/**/*.js'
             ]
         },
+
+        cucumberjs: {
+            test: {
+                src: 'features',
+                options: {
+                    steps: 'features/steps/'
+                }
+            }
+        },
+
         jasmine: {
             test: {
                 options: {
@@ -38,7 +49,7 @@ module.exports = function(grunt) {
                 jshintrc: ".jshintrc"
             },
             test: {
-                files:{
+                files: {
                     src: '<%= meta.src %>'
                 }
             }
@@ -48,6 +59,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-cucumber');
 
-    grunt.registerTask('test', ['jscs', 'jshint', 'jasmine']);
+
+    grunt.registerTask('test', ['jscs', 'jshint', 'jasmine', 'cucumberjs']);
 };
