@@ -1,37 +1,37 @@
 {
-    "name": "android-findme-api",
-    "version": "0.0.1",
-    "description": "API for FindMe application",
-    "main": "index.js",
-    "scripts": {
-        "test": "grunt test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ertrzyiks/android-findme-api.git"
-    },
-    "keywords": [
-        "android",
-        "findme",
-        "map"
-    ],
-    "author": "ertrzyiks <mateusz.derks@gmail.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/ertrzyiks/android-findme-api/issues"
-    },
-    "homepage": "https://github.com/ertrzyiks/android-findme-api",
-    "devDependencies": {
-        "grunt": "^0.4.5",
-        "grunt-contrib-jasmine": "^0.7.0",
-        "grunt-contrib-jshint": "^0.10.0",
-        "grunt-jscs": "^0.8.1",
-        "request": "^2.48.0"
-    },
-    "dependencies": {
-        "config": "^1.7.0",
-        "express": "^4.10.2",
-        "grunt-cucumber": "git@github.com:ertrzyiks/grunt-cucumber-js.git",
-        "mongoose": "^3.8.19"
-    }
+  "name": "android-findme-api",
+  "version": "0.0.1",
+  "description": "API for FindMe application",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ertrzyiks/android-findme-api.git"
+  },
+  "keywords": [
+    "android",
+    "findme",
+    "map"
+  ],
+  "author": "ertrzyiks <mateusz.derks@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ertrzyiks/android-findme-api/issues"
+  },
+  "homepage": "https://github.com/ertrzyiks/android-findme-api",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jasmine": "^0.7.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-cucumber": "^0.2.3",
+    "grunt-jscs": "^0.8.1",
+    "request": "^2.48.0"
+  },
+  "dependencies": {
+    "config": "^1.7.0",
+    "express": "^4.10.2",
+    "mongoose": "^3.8.19"
+  }
 }
