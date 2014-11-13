@@ -6,7 +6,7 @@ Feature: Example feature
   Scenario: Calling sample method
     Given I am an API client
     When the client requests GET "/api"
-    And the response should be a "200" with JSON:
+    Then the response should be a "200" with JSON:
     """
     Ecomm API is running
     """

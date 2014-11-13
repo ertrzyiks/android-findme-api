@@ -5,11 +5,22 @@ var myStepDefinitionsWrapper = function () {
         callback();
     });
 
-    this.When(/^the client requests GET "([^"]*)"$/, function(arg1, callback) {
-        callback();
+    this.When(/^the client requests GET "([^"]*)"$/, function(url, callback) {
+        this.request({
+            method: 'GET',
+            uri: url
+        }, callback);
     });
 
-    this.When(/^the response should be a "([^"]*)" with JSON:$/, function(arg1, string, callback) {
+    this.Then(/^the response should be a "([^"]*)" with JSON:$/, function(statusCode, answer, callback) {
+        if (this.response.statusCode !== parseInt(statusCode, 10)) {
+            return callback.fail(new Error("Expected status code " + statusCode));
+        }
+
+        if (this.responseBody !== answer) {
+            return callback.fail(new Error("Expected response body " + answer));
+        }
+
         callback();
     });
 };

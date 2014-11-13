@@ -14,7 +14,7 @@ module.exports = function(grunt) {
             test: {
                 src: 'features',
                 options: {
-                    steps: 'features/steps/'
+                    steps: 'features'
                 }
             }
         },
