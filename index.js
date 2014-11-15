@@ -12,7 +12,17 @@
         mongo_username = config.get('mongo_username'),
         mongo_password = config.get('mongo_password'),
 
-        server;
+        server,
+
+        connectionString = mongo_password + '@' + mongo_host + '/' + mongo_dbname;
+
+    if (mongo_username) {
+        if (mongo_password) {
+            connectionString = mongo_username + ":" + mongo_password + "@";
+        } else {
+            connectionString = mongo_username + "@";
+        }
+    }
 
     mongoose.connect('mongodb://' + mongo_username + ':' + mongo_password + '@' + mongo_host + '/' + mongo_dbname);
 
