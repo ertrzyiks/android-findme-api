@@ -26,4 +26,5 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
-development.json
+config/local-development.json
+config/local-test.json

@@ -82,6 +82,7 @@
         "expect": false,
         "inject": false,
         "module": false,
-        "spyOn": false
+        "spyOn": false,
+        "process": false
     }
 }

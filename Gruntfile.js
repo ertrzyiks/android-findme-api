@@ -6,7 +6,8 @@ module.exports = function(grunt) {
             src: [
                 'index.js',
                 'src/**/*.js',
-                'spec/**/*.js'
+                'spec/**/*.js',
+                'features/**/*.js'
             ]
         },
 
@@ -14,7 +15,8 @@ module.exports = function(grunt) {
             test: {
                 src: 'features',
                 options: {
-                    steps: 'features'
+                    steps: 'features',
+                    tags: '~@wip'
                 }
             }
         },
@@ -30,6 +32,12 @@ module.exports = function(grunt) {
                         path: 'build/logs/jasmine'
                     }
                 }
+            }
+        },
+
+        env: {
+            test: {
+                NODE_ENV: 'test'
             }
         },
 
@@ -60,7 +68,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-cucumber');
+    grunt.loadNpmTasks('grunt-env');
 
 
-    grunt.registerTask('test', ['jscs', 'jshint', 'jasmine', 'cucumberjs']);
+    grunt.registerTask('test', ['env:test', 'jscs', 'jshint', 'jasmine', 'cucumberjs']);
 };

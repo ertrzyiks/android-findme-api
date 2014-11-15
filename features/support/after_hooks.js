@@ -1,9 +1,15 @@
-var myAfterHooks = function () {
-    this.After(function(callback) {
-        this.clearResponse();
+(function () {
+    'use strict';
 
-        callback();
-    });
-}
+    var myAfterHooks = function () {
+        /*jshint validthis:true */
 
-module.exports = myAfterHooks;
+        this.After(function (callback) {
+            this.clearResponse();
+
+            callback();
+        });
+    };
+
+    module.exports = myAfterHooks;
+})();
