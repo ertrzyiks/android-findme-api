@@ -20,14 +20,8 @@
     });
 
     app.get('/users', function (req, res) {
-        User.find({}, function (err, users) {
-            var userMap = {};
-
-            users.forEach(function (user) {
-                userMap[user._id] = user;
-            });
-
-            res.send(userMap);
+        User.find({}, { __v: 0 }, function (err, users) {
+            res.send(users);
         });
     });
 

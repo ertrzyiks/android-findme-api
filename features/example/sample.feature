@@ -26,11 +26,11 @@ Feature: Example feature
     """
     [
       {
-        "id": "1",
+        "_id": "1",
         "username": "user1"
       },
       {
-        "id": "2",
+        "_id": "2",
         "username": "user2"
       }
     ]

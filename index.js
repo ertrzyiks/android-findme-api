@@ -5,8 +5,6 @@
 
     app.start()
         .then(function () {
-            app.clearDatabase();
-
             console.log('Listening on 3000');
         })
         .catch(function (err) {
