@@ -2,14 +2,13 @@
     'use strict';
 
     var request = require('request'),
-
-        User = require('../../src/models/user.js');
+        Room = require('../../src/models/room.js');
 
     exports.World = function World(done) {
         this.baseUrl = 'http://127.0.0.1:3000';
 
         this.models = {};
-        this.models.User = User;
+        this.models.Room = Room;
 
         this.getUrl = function (url) {
             if (url.match('^/')) {

@@ -8,18 +8,18 @@ var async = require('async');
 
         this.World = require('../support/world.js').World;
 
-        this.Given(/^there are following users:$/, function (table, callback) {
-            var User = this.models.User;
+        this.Given(/^I am an API client$/, function (callback) {
+            callback();
+        });
+
+        this.Given(/^there are following rooms:$/, function (table, callback) {
+            var Room = this.models.Room;
 
             async.eachSeries(table.hashes(), function (data, next) {
-                var row = new User(data);
+                var row = new Room(data);
 
                 row.save(next);
             }, callback);
-        });
-
-        this.Given(/^I am an API client$/, function (callback) {
-            callback();
         });
 
         this.When(/^the client requests GET "([^"]*)"$/, function (url, callback) {
@@ -27,6 +27,22 @@ var async = require('async');
                 method: 'GET',
                 uri: url
             }, callback);
+        });
+
+        this.When(/^the client requests POST "([^"]*)" with data:$/, function (url, postdata, callback) {
+            this.request({
+                method: 'POST',
+                uri: url,
+                formData: this.parseJSON(postdata, 'post data')
+            }, callback);
+        });
+
+        this.Then(/^print last response$/, function (callback) {
+            console.log();
+            console.log(this.response.statusCode);
+            console.log(this.responseBody);
+            console.log();
+            callback();
         });
 
         this.Then(/^the response should be a "([^"]*)" with JSON:$/, function (statusCode, answer, callback) {

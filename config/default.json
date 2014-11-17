@@ -1,6 +1,9 @@
 {
-    "mongo_host": "127.0.0.1",
-    "mongo_dbname": "findme",
-    "mongo_username": "",
-    "mongo_password": ""
+    "mongo": {
+        "host": "127.0.0.1",
+        "dbname": "findme",
+        "username": "",
+        "password": ""
+    }
+
 }

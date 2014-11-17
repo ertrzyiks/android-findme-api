@@ -2,55 +2,38 @@
     'use strict';
 
     var q = require('q'),
+        async = require('async'),
         express = require('express'),
         mongoose = require('mongoose'),
         config = require('config'),
 
+        getConnectionString = require('./util/mongo_connection_string'),
+
         app = express(),
 
-        mongo_host = config.get('mongo_host'),
-        mongo_dbname = config.get('mongo_dbname'),
-        mongo_username = config.get('mongo_username'),
-        mongo_password = config.get('mongo_password'),
+        mongo_config = config.get('mongo'),
 
-        User = require('./models/user.js');
+        roomsController = require('./controllers/rooms.js');
 
-    app.get('/api', function (req, res) {
-        res.send({ message: 'Ecomm API is running'});
-    });
-
-    app.get('/users', function (req, res) {
-        User.find({}, { __v: 0 }, function (err, users) {
-            res.send(users);
-        });
-    });
+    app.use('/api/v1', roomsController.router);
 
     module.exports = {
         start: function () {
-            var connectionString = mongo_host + '/' + mongo_dbname,
-                d = q.defer(),
-                db;
+            var connectionString = getConnectionString(mongo_config),
 
-            if (mongo_username) {
-                if (mongo_password) {
-                    connectionString = mongo_username + ":" + mongo_password + "@" + connectionString;
-                } else {
-                    connectionString = mongo_username + "@" + connectionString;
-                }
-            }
+                db = mongoose.connection,
+                d = q.defer();
 
-            mongoose.connect('mongodb://' + connectionString);
-
-            db = mongoose.connection;
-
-            db.on('error', function (err) {
-                d.reject(err);
-            });
+            mongoose.connect(connectionString);
 
             db.on('open', function () {
                 var server = app.listen(3000);
 
                 d.resolve(server);
+            });
+
+            db.on('error', function (err) {
+                d.reject(err);
             });
 
             return d.promise.then(function (server) {
@@ -63,7 +46,11 @@
         },
 
         clearDatabase: function (done) {
-            mongoose.connection.collections.users.drop(done);
+            async.parallel([
+                function (next) {
+                    mongoose.connection.collections.rooms.drop(next);
+                }
+            ], done);
         }
     };
 })();
