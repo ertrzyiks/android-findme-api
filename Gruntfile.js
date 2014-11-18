@@ -21,20 +21,6 @@ module.exports = function(grunt) {
             }
         },
 
-        jasmine: {
-            test: {
-                options: {
-                    specs: 'spec/**/*.spec.js',
-                    version: "2.0.0",
-                    summary: "full",
-                    keepRunner: false,
-                    junit: {
-                        path: 'build/logs/jasmine'
-                    }
-                }
-            }
-        },
-
         env: {
             test: {
                 NODE_ENV: 'test'
@@ -61,15 +47,25 @@ module.exports = function(grunt) {
                     src: '<%= meta.src %>'
                 }
             }
+        },
+
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: ['spec/**/*.spec.js']
+
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-cucumber');
     grunt.loadNpmTasks('grunt-env');
 
 
-    grunt.registerTask('test', ['env:test', 'jscs', 'jshint', 'jasmine', 'cucumberjs']);
+    grunt.registerTask('test', ['env:test', 'jscs', 'jshint', 'mochaTest', 'cucumberjs']);
 };

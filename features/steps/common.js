@@ -50,7 +50,11 @@ var async = require('async');
                 return callback.fail(new Error('Expected status code ' + statusCode));
             }
 
-            if (false === this.areEqualJSONs(this.responseBody, answer)) {
+            var wildcards = [
+                "ROOM_ID"
+            ];
+
+            if (false === this.areEqualJSONs(this.responseBody, answer, wildcards)) {
                 return callback.fail(new Error('Expected response body ' + answer));
             }
 

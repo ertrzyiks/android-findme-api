@@ -7,7 +7,7 @@
         router = express.Router();
 
     router.get('/rooms', function (req, res) {
-        Room.find({}, { __v: 0, password: 0 }, function (err, rooms) {
+        Room.find({ is_public: true }, function (err, rooms) {
             res.send(rooms);
         });
     });

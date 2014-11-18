@@ -23,7 +23,7 @@ Feature: Rooms
       }
     ]
     """
-
+  @wip
   Scenario: Creating public room
     Given I am an API client
     When the client requests POST "/api/v1/rooms" with data:
@@ -39,8 +39,8 @@ Feature: Rooms
       "name": "MyPublicRoom",
       "is_public": true
     }
-    """
-
+   """
+  @wip
   Scenario: Creating private room
     Given I am an API client
     When the client requests POST "/api/v1/rooms" with data:

@@ -79,7 +79,6 @@
         "describe": false,
         "it": false,
         "xit": false,
-        "expect": false,
         "inject": false,
         "module": false,
         "spyOn": false,

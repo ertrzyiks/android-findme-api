@@ -2,6 +2,7 @@
     'use strict';
 
     var request = require('request'),
+        diff = require('deep-diff').diff,
         Room = require('../../src/models/room.js');
 
     exports.World = function World(done) {
@@ -31,11 +32,31 @@
             return obj;
         };
 
-        this.areEqualJSONs = function (json1, json2) {
-            var obj1 = this.parseJSON(json1),
-                obj2 = this.parseJSON(json2);
+        this.isArray = function (obj) {
+            return '[object Array]' === Object.prototype.toString.call(obj);
+        };
 
-            return JSON.stringify(obj1) === JSON.stringify(obj2);
+        this.areEqualJSONs = function (json1, json2, wildcards) {
+            var obj1 = this.parseJSON(json1),
+                obj2 = this.parseJSON(json2),
+
+                ok = true,
+                differences;
+
+            if (this.isArray(obj1) !== this.isArray(obj2)) {
+                return false;
+            }
+
+            differences = diff(obj1, obj2) || [];
+            wildcards = wildcards || [];
+
+            differences.forEach(function (difference) {
+                if (-1 === wildcards.indexOf(difference.rhs)) {
+                    ok = false;
+                }
+            });
+
+            return ok;
         };
 
         this.clearResponse = function () {
@@ -66,6 +87,6 @@
             ;
         };
 
-        done();
+        process.nextTick(done);
     };
 })(module.exports);
