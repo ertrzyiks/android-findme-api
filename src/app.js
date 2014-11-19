@@ -4,6 +4,8 @@
     var q = require('q'),
         async = require('async'),
         express = require('express'),
+        bodyParser = require('body-parser'),
+
         mongoose = require('mongoose'),
         config = require('config'),
 
@@ -15,6 +17,7 @@
 
         roomsController = require('./controllers/rooms.js');
 
+    app.use(bodyParser.json());
     app.use('/api/v1', roomsController.router);
 
     module.exports = {

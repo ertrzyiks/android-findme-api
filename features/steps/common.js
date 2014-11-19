@@ -33,7 +33,10 @@ var async = require('async');
             this.request({
                 method: 'POST',
                 uri: url,
-                formData: this.parseJSON(postdata, 'post data')
+                body: JSON.stringify(this.parseJSON(postdata)),
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                }
             }, callback);
         });
 
@@ -47,15 +50,19 @@ var async = require('async');
 
         this.Then(/^the response should be a "([^"]*)" with JSON:$/, function (statusCode, answer, callback) {
             if (this.response.statusCode !== parseInt(statusCode, 10)) {
-                return callback.fail(new Error('Expected status code ' + statusCode));
+                return callback.fail('Expected status code ' + statusCode);
             }
 
-            var wildcards = [
-                "ROOM_ID"
-            ];
+            var wildcards = {
+                "ROOM_ID": "string",
+                "CREATED_AT_TIMESTAMP": "number",
+                "UPDATED_AT_TIMESTAMP": "number"
+            };
 
             if (false === this.areEqualJSONs(this.responseBody, answer, wildcards)) {
-                return callback.fail(new Error('Expected response body ' + answer));
+                return callback.fail(
+                    'Expected response body ' + answer + ", but got " + this.responseBody
+                );
             }
 
             callback();

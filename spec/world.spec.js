@@ -136,14 +136,27 @@ describe('World', function () {
             }
         });
 
-        it('should match to wildcard all primitives', function (done) {
+        it('should match to wildcard object of given type', function (done) {
             var world = new World(next);
 
             function next() {
                 var json1 = '{"id": "1", "field": "value"}',
                     json2 = '{"id": "MY_ID", "field": "value"}';
 
-                expect(world.areEqualJSONs(json1, json2, ['MY_ID'])).to.be.true();
+                expect(world.areEqualJSONs(json1, json2, {'MY_ID': 'string'})).to.be.true();
+
+                done();
+            }
+        });
+
+        it('should not match to wildcard object of different type', function (done) {
+            var world = new World(next);
+
+            function next() {
+                var json1 = '{"id": "1", "field": "value"}',
+                    json2 = '{"id": "MY_ID", "field": "value"}';
+
+                expect(world.areEqualJSONs(json1, json2, {'MY_ID': 'number'})).to.be.false();
 
                 done();
             }

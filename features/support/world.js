@@ -20,13 +20,17 @@
         };
 
         this.parseJSON = function (json, description) {
+            if (!json) {
+                return {};
+            }
+
             var obj;
 
             try {
                 obj = JSON.parse(json);
             }
             catch (err) {
-                throw new Error('Invalid ' + description + 'json, got: ' + json);
+                throw 'Invalid ' + description || "" + 'json, got: ' + json;
             }
 
             return obj;
@@ -48,10 +52,12 @@
             }
 
             differences = diff(obj1, obj2) || [];
-            wildcards = wildcards || [];
+            wildcards = wildcards || {};
 
             differences.forEach(function (difference) {
-                if (-1 === wildcards.indexOf(difference.rhs)) {
+                var wildcardType = wildcards[difference.rhs];
+
+                if ('undefined' === typeof(wildcardType) || typeof(difference.lhs) !== wildcardType) {
                     ok = false;
                 }
             });

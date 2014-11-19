@@ -4,10 +4,29 @@
     var mongoose = require('mongoose'),
         Schema = mongoose.Schema,
         RoomSchema = new Schema({
-            name: { type: String },
-            is_public: { type: Boolean },
-            password: { type: String }
+            name: {
+                type: String,
+                required: '{PATH} is required',
+                trim: true
+            },
+            is_public: {
+                type: Boolean,
+                default: true
+            },
+            password: { type: String },
+            created_at: { type: Number },
+            updated_at: { type: Number }
         });
+
+    RoomSchema.pre('save', function (next) {
+        var now = (new Date()).getTime();
+        this.updated_at = now;
+
+        if (!this.created_at) {
+            this.created_at = now;
+        }
+        next();
+    });
 
     RoomSchema.set('toJSON', {
         transform: function (doc, ret) {
