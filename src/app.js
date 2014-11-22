@@ -12,15 +12,27 @@
         getConnectionString = require('./util/mongo_connection_string'),
 
         app = express(),
+        subapp = express(),
 
-        mongo_config = config.get('mongo'),
+        swagger = require("swagger-node-express").createNew(subapp),
 
-        roomsController = require('./controllers/rooms.js');
+        mongo_config = config.get('mongo');
 
     app.use(bodyParser.json());
-    app.use('/api/v1', roomsController.router);
+    app.use(require('./cors'));
+    app.use('/api/v1', subapp);
+
+    swagger.addModels(require('./models'));
+
+    swagger.addGet(require('./controllers/room').get);
+    swagger.addPost(require('./controllers/room').post);
+
+    swagger.configureSwaggerPaths('', '/doc', '');
+    swagger.configure('/api/v1', require('../package.json').version);
 
     module.exports = {
+        instance: app,
+
         start: function () {
             var connectionString = getConnectionString(mongo_config),
 

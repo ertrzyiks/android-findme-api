@@ -31,6 +31,22 @@ Feature: Rooms
       }
     ]
     """
+  @wip
+  Scenario: Fetching list of public rooms
+    Given I am an API client
+    When the client requests GET "/api/v1/rooms?only_public=true"
+    Then the response should be a "200" with JSON:
+    """
+    [
+      {
+        "id": "ROOM_ID",
+        "name": "Room #1",
+        "is_public": true,
+        "created_at": "CREATED_AT_TIMESTAMP",
+        "updated_at": "UPDATED_AT_TIMESTAMP"
+      }
+    ]
+    """
 
   Scenario: Creating public room
     Given I am an API client
@@ -59,18 +75,10 @@ Feature: Rooms
     Then the response should be a "400" with JSON:
     """
     {
-      "message":"Validation failed",
-      "name":"ValidationError",
-      "errors":{
-        "name":{
-          "message":"name is required",
-          "name":"ValidatorError",
-          "path":"name",
-          "type":"required"
-        }
-      }
+      "code": 400,
+      "message": "invalid name"
     }
-   """
+    """
 
   Scenario: Creating private room
     Given I am an API client

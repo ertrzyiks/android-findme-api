@@ -50,7 +50,7 @@ var async = require('async');
 
         this.Then(/^the response should be a "([^"]*)" with JSON:$/, function (statusCode, answer, callback) {
             if (this.response.statusCode !== parseInt(statusCode, 10)) {
-                return callback.fail('Expected status code ' + statusCode);
+                return callback.fail('Expected status code ' + statusCode + ", but got " + this.response.statusCode);
             }
 
             var wildcards = {
