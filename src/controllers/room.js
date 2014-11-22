@@ -16,11 +16,26 @@
             type: "RoomDisplayable",
             nickname: "getRoomList",
             produces: ["application/json"],
-            parameters: [],
+            parameters: [
+                paramTypes.query(
+                    'only_public',
+                    'When this flag is true, list will contain only public rooms',
+                    'boolean',
+                    false,
+                    null,
+                    'false'
+                )
+            ],
             responseMessages: []
         },
         'action': function (req, res) {
-            Room.find({}, function (err, rooms) {
+            var query = {};
+
+            if (req.query.only_public === 'true') {
+                query.password = "";
+            }
+
+            Room.find(query, function (err, rooms) {
                 res.send(rooms);
             });
         }

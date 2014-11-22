@@ -31,7 +31,7 @@ Feature: Rooms
       }
     ]
     """
-  @wip
+
   Scenario: Fetching list of public rooms
     Given I am an API client
     When the client requests GET "/api/v1/rooms?only_public=true"
