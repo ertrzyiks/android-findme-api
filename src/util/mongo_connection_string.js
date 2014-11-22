@@ -2,16 +2,20 @@
     'use strict';
 
     module.exports = function (config) {
-        var connectionString = config.host + '/' + config.dbname;
+        config = config || {};
+
+        var host = config.host || 'localhost',
+            dbname = config.dbname || 'test',
+            authPart = '',
+            passwordPart = '';
 
         if (config.username) {
             if (config.password) {
-                connectionString = config.username + ":" + config.password + "@" + connectionString;
-            } else {
-                connectionString = config.username + "@" + connectionString;
+                passwordPart = ':' + config.password;
             }
+            authPart = config.username + passwordPart + "@";
         }
 
-        return 'mongodb://' + connectionString;
+        return 'mongodb://' + authPart + host + '/' + dbname;
     };
 })(module);
