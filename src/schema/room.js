@@ -2,6 +2,7 @@
     'use strict';
 
     var mongoose = require('mongoose'),
+        passwordUtil = require('../util/password'),
         Schema = mongoose.Schema,
         roomSchema = new Schema({
             name: {
@@ -21,7 +22,15 @@
         if (!this.created_at) {
             this.created_at = now;
         }
-        next();
+
+        if (this.password) {
+            passwordUtil.hash(this.password, function (err, hash) {
+                this.password = hash;
+                next();
+            }.bind(this));
+        } else {
+            next();
+        }
     });
 
     roomSchema.virtual('is_public').get(function () {
