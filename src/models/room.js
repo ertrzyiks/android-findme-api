@@ -9,10 +9,6 @@
                 required: '{PATH} is required',
                 trim: true
             },
-            is_public: {
-                type: Boolean,
-                default: true
-            },
             password: { type: String },
             created_at: { type: Number },
             updated_at: { type: Number }
@@ -28,7 +24,12 @@
         next();
     });
 
+    RoomSchema.virtual('is_public').get(function () {
+        return !this.password;
+    });
+
     RoomSchema.set('toJSON', {
+        virtuals: true,
         transform: function (doc, ret) {
             ret.id = ret._id;
             delete ret._id;

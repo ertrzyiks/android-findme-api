@@ -5,9 +5,9 @@ Feature: Rooms
 
   Background:
     Given there are following rooms:
-      | name      |  is_public  |  password  | created_at | updated_at |
-      | Room #1   |  true       |            |     0      |     0      |
-      | Room #2   |  false      | 123        |     0      |     0      |
+      | name      |  password  | created_at | updated_at |
+      | Room #1   |            |     0      |     0      |
+      | Room #2   |     123    |     0      |     0      |
 
   Scenario: Fetching list of rooms
     Given I am an API client
@@ -19,6 +19,13 @@ Feature: Rooms
         "id": "ROOM_ID",
         "name": "Room #1",
         "is_public": true,
+        "created_at": "CREATED_AT_TIMESTAMP",
+        "updated_at": "UPDATED_AT_TIMESTAMP"
+      },
+      {
+        "id": "ROOM_ID",
+        "name": "Room #2",
+        "is_public": false,
         "created_at": "CREATED_AT_TIMESTAMP",
         "updated_at": "UPDATED_AT_TIMESTAMP"
       }
@@ -64,7 +71,7 @@ Feature: Rooms
       }
     }
    """
-  @wip
+
   Scenario: Creating private room
     Given I am an API client
     When the client requests POST "/api/v1/rooms" with data:
@@ -79,6 +86,8 @@ Feature: Rooms
     {
       "id": "ROOM_ID",
       "name": "MyPrivateRoom",
-      "is_public": false
+      "is_public": false,
+      "created_at": "CREATED_AT_TIMESTAMP",
+      "updated_at": "UPDATED_AT_TIMESTAMP"
     }
     """

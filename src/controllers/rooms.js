@@ -7,13 +7,17 @@
         router = express.Router();
 
     router.get('/rooms', function (req, res) {
-        Room.find({ is_public: true }, function (err, rooms) {
+        Room.find({}, function (err, rooms) {
             res.send(rooms);
         });
     });
 
     router.post('/rooms', function (req, res) {
         var room = new Room(req.body);
+
+        if (room.get('password')) {
+            room.set('is_public', false);
+        }
 
         room.save(function (err, model) {
             if (err) {
