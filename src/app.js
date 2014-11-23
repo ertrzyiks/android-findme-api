@@ -5,6 +5,8 @@
         async = require('async'),
         express = require('express'),
         bodyParser = require('body-parser'),
+        oauth2 = require('./oauth2'),
+        auth = require('./auth'),
 
         mongoose = require('mongoose'),
         config = require('config'),
@@ -21,9 +23,13 @@
     app.use(bodyParser.json());
     app.use(require('./cors'));
     app.use('/api/v1', subapp);
+    app.use('/oauth/v2/token', oauth2.token);
 
     swagger.addModels(require('./models'));
 
+    subapp.use(auth.client);
+    swagger.addPost(require('./controllers/user').post);
+    subapp.use(auth.bearer);
     swagger.addGet(require('./controllers/room').get);
     swagger.addPost(require('./controllers/room').post);
 

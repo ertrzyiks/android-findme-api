@@ -1,13 +1,26 @@
 (function (exports) {
     'use strict';
 
-    var bcrypt = require('bcrypt');
+    var crypto = require('crypto');
 
     exports.hash = function (password, callback) {
-        bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(password, salt, function (err, hash) {
-                callback(err, hash);
+        crypto.randomBytes(32, function (err, buf) {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            var salt = buf.toString('hex');
+
+            crypto.pbkdf2(password, salt, 25000, 512, function (err, encodedPassword) {
+                callback(err, encodedPassword, salt);
             });
+        });
+    };
+
+    exports.validatePassword = function (password, hash, salt, callback) {
+        crypto.pbkdf2(password, salt, 25000, 512, function (err, encodedPassword) {
+            callback(err, hash.toString('hex') === encodedPassword.toString('hex'));
         });
     };
 })(module.exports);

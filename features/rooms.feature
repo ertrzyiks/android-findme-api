@@ -11,6 +11,7 @@ Feature: Rooms
 
   Scenario: Fetching list of rooms
     Given I am an API client
+    And I join as "Jeremy"
     When the client requests GET "/api/v1/rooms"
     Then the response should be a "200" with JSON:
     """
@@ -19,21 +20,22 @@ Feature: Rooms
         "id": "ROOM_ID",
         "name": "Room #1",
         "is_public": true,
-        "created_at": "CREATED_AT_TIMESTAMP",
-        "updated_at": "UPDATED_AT_TIMESTAMP"
+        "created_at": "TIMESTAMP",
+        "updated_at": "TIMESTAMP"
       },
       {
         "id": "ROOM_ID",
         "name": "Room #2",
         "is_public": false,
-        "created_at": "CREATED_AT_TIMESTAMP",
-        "updated_at": "UPDATED_AT_TIMESTAMP"
+        "created_at": "TIMESTAMP",
+        "updated_at": "TIMESTAMP"
       }
     ]
     """
 
   Scenario: Fetching list of public rooms
     Given I am an API client
+    And I join as "Jeremy"
     When the client requests GET "/api/v1/rooms?only_public=true"
     Then the response should be a "200" with JSON:
     """
@@ -42,14 +44,15 @@ Feature: Rooms
         "id": "ROOM_ID",
         "name": "Room #1",
         "is_public": true,
-        "created_at": "CREATED_AT_TIMESTAMP",
-        "updated_at": "UPDATED_AT_TIMESTAMP"
+        "created_at": "TIMESTAMP",
+        "updated_at": "TIMESTAMP"
       }
     ]
     """
 
   Scenario: Creating public room
     Given I am an API client
+    And I join as "Jeremy"
     When the client requests POST "/api/v1/rooms" with data:
     """
     {
@@ -62,15 +65,17 @@ Feature: Rooms
       "id": "ROOM_ID",
       "name": "MyPublicRoom",
       "is_public": true,
-      "created_at": "CREATED_AT_TIMESTAMP",
-      "updated_at": "UPDATED_AT_TIMESTAMP"
+      "created_at": "TIMESTAMP",
+      "updated_at": "TIMESTAMP"
     }
    """
 
   Scenario: Cannot create public room without name
     Given I am an API client
+    And I join as "Jeremy"
     When the client requests POST "/api/v1/rooms" with data:
     """
+    {}
     """
     Then the response should be a "400" with JSON:
     """
@@ -82,6 +87,7 @@ Feature: Rooms
 
   Scenario: Creating private room
     Given I am an API client
+    And I join as "Jeremy"
     When the client requests POST "/api/v1/rooms" with data:
     """
     {
@@ -95,7 +101,7 @@ Feature: Rooms
       "id": "ROOM_ID",
       "name": "MyPrivateRoom",
       "is_public": false,
-      "created_at": "CREATED_AT_TIMESTAMP",
-      "updated_at": "UPDATED_AT_TIMESTAMP"
+      "created_at": "TIMESTAMP",
+      "updated_at": "TIMESTAMP"
     }
     """

@@ -4,34 +4,44 @@
     module.exports = {
         models: {
             Room: {
-                "id":"Room",
-                "required": ["name"],
-                "properties":{
-                    "name":{
-                        "type":"string",
-                        "description": "Name of the category"
+                id: 'Room',
+                required: ['name'],
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: 'Name of the category'
                     },
-                    "password":{
-                        "type": "string",
-                        "description": "Room password"
+                    password: {
+                        type: 'string',
+                        description: 'Room password'
                     }
                 }
             },
             RoomDisplayable: {
-                "id":"RoomDisplayable",
-                "required": ["id", "name", "is_public"],
-                "properties":{
-                    "id": {
-                        "type": "string",
-                        "description": ""
+                id: 'RoomDisplayable',
+                required: ['id', 'name', 'is_public'],
+                properties: {
+                    id: {
+                        type: 'string',
+                        description: ''
                     },
-                    "name": {
-                        "type":"string",
-                        "description": "Name of the category"
+                    name: {
+                        type: 'string',
+                        description: 'Name of the category'
                     },
-                    "is_public": {
-                        "type": "boolean",
-                        "description": "True when room is secured with password"
+                    is_public: {
+                        type: 'boolean',
+                        description: 'True when room is secured with password'
+                    }
+                }
+            },
+            User: {
+                id: 'User',
+                required: ['name'],
+                properties: {
+                    username: {
+                        type: 'string',
+                        description: 'User public name'
                     }
                 }
             }

@@ -2,16 +2,12 @@
     'use strict';
 
     var mongoose = require('mongoose'),
-        passwordUtil = require('../util/password'),
         Schema = mongoose.Schema,
-        roomSchema = new Schema({
-            name: {
+        userSchema = new Schema({
+            username: {
                 type: String,
                 required: '{PATH} is required',
                 trim: true
-            },
-            password: {
-                type: String
             },
             created_at: {
                 type: Number
@@ -21,7 +17,7 @@
             }
         });
 
-    roomSchema.pre('save', function (next) {
+    userSchema.pre('save', function (next) {
         var now = (new Date()).getTime();
         this.updated_at = now;
 
@@ -29,30 +25,16 @@
             this.created_at = now;
         }
 
-        if (this.password) {
-            passwordUtil.hash(this.password, function (err, hash) {
-                this.password = hash;
-                next();
-            }.bind(this));
-        } else {
-            next();
-        }
+        next();
     });
 
-    roomSchema.virtual('is_public').get(function () {
-        return !this.password;
-    });
-
-    roomSchema.set('toJSON', {
-        virtuals: true,
-
+    userSchema.set('toJSON', {
         transform: function (doc, ret) {
             ret.id = ret._id;
             delete ret._id;
             delete ret.__v;
-            delete ret.password;
         }
     });
 
-    module.exports = roomSchema;
+    module.exports = userSchema;
 })(module);

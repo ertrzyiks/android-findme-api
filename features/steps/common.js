@@ -1,7 +1,7 @@
-var async = require('async');
-
 (function () {
     'use strict';
+    var async = require('async'),
+        oauth2 = require('../../src/oauth2');
 
     function myStepDefinitionsWrapper() {
         /*jshint validthis:true */
@@ -9,7 +9,16 @@ var async = require('async');
         this.World = require('../support/world.js').World;
 
         this.Given(/^I am an API client$/, function (callback) {
-            callback();
+            var Client = this.models.Client,
+                client = new Client({
+                    title: 'MyTestingClient',
+                    oauth_secret: '1234567890'
+                });
+
+            client.save(function (err, cl) {
+                this.client = cl;
+                callback();
+            }.bind(this));
         });
 
         this.Given(/^there are following rooms:$/, function (table, callback) {
@@ -20,6 +29,42 @@ var async = require('async');
 
                 row.save(next);
             }, callback);
+        });
+
+        this.Given(/^there are following clients:$/, function (table, callback) {
+            var Client = this.models.Client;
+
+            async.eachSeries(table.hashes(), function (data, next) {
+                var row = new Client(data);
+
+                row.save(next);
+            }, callback);
+        });
+
+        this.Given(/^I join as "([^"]*)"$/, function (username, callback) {
+            var User = this.models.User,
+                user = new User({
+                    username: username
+                });
+
+            user.save(function (err, u) {
+                if (err) {
+                    callback(err);
+                    return;
+                }
+
+                oauth2.doAuthenticate(this.client, u, function (err, accessToken, refreshToken) {
+                    if (err) {
+                        callback(err);
+                        return;
+                    }
+
+                    this.setAccessToken(accessToken);
+                    this.setRefreshToken(refreshToken);
+
+                    callback(null);
+                }.bind(this));
+            }.bind(this));
         });
 
         this.When(/^the client requests GET "([^"]*)"$/, function (url, callback) {
@@ -55,8 +100,9 @@ var async = require('async');
 
             var wildcards = {
                 "ROOM_ID": "string",
-                "CREATED_AT_TIMESTAMP": "number",
-                "UPDATED_AT_TIMESTAMP": "number"
+                "ACCESS_TOKEN": "string",
+                "REFRESH_TOKEN": "string",
+                "TIMESTAMP": "number"
             };
 
             if (false === this.areEqualJSONs(this.responseBody, answer, wildcards)) {

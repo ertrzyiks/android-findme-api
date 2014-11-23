@@ -3,13 +3,26 @@
 
     var request = require('request'),
         diff = require('deep-diff').diff,
-        Room = require('../../src/models/room.js');
+
+        Room = require('../../src/models/room.js'),
+        Client = require('../../src/models/client.js'),
+        User = require('../../src/models/user.js');
 
     exports.World = function World(done) {
         this.baseUrl = 'http://127.0.0.1:3000';
 
         this.models = {};
         this.models.Room = Room;
+        this.models.Client = Client;
+        this.models.User = User;
+
+        this.setAccessToken = function (at) {
+            this.accessToken = at;
+        };
+
+        this.setRefreshToken = function (rt) {
+            this.refreshToken = rt;
+        };
 
         this.getUrl = function (url) {
             if (url.match('^/')) {
@@ -70,12 +83,18 @@
             this.responseBody = "";
         };
 
+        this.getAuthenticateHeader = function () {
+            return this.accessToken ? 'Bearer ' + this.accessToken : this.client._id;
+        };
+
         this.request = function (params, callback) {
             var _response_, _responseBody_ = "";
 
             this.clearResponse();
 
             params.uri = this.getUrl(params.uri);
+            params.headers = params.headers || {};
+            params.headers.Authorization = this.getAuthenticateHeader();
 
             request(params)
                 .on('response', function (response) {

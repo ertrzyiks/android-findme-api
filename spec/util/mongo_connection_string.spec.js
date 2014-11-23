@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 
-describe('MongoConnectionString', function () {
+describe('MongoConnectionString Util', function () {
     'use strict';
 
     var getConnectionString = require('../../src/util/mongo_connection_string.js');
