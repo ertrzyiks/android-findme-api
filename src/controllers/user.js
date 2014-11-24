@@ -29,12 +29,12 @@
             var user = new User(req.body);
 
             user.save(function (err, u) {
-                oauth2.doAuthenticate(req.clientId, u, function (err, accessToken, refreshToken) {
+                oauth2.doAuthenticate(req.clientId, u, function (err, accessToken, refreshToken, params) {
                     res.send({
                         access_token: accessToken,
                         refresh_token: refreshToken,
                         type: 'bearer',
-                        expire_time: 0
+                        expire_time: params.expire_time
                     });
                 });
             });

@@ -95,7 +95,7 @@
                 var accessToken = data[0],
                     refreshToken = data[1];
 
-                callback(null, accessToken.token, refreshToken.token);
+                callback(null, accessToken.token, refreshToken.token, { expire_time: accessToken.expires });
             });
         });
     };

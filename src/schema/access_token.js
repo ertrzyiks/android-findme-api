@@ -23,11 +23,11 @@
             ],
             expires:
             {
-                type: Date,
+                type: Number,
                 default: function () {
                     var today = new Date();
 
-                    return new Date(today.getTime() + accessTokenTTL);
+                    return new Date(today.getTime() + accessTokenTTL).getTime();
                 }
             },
             active: {
