@@ -20,8 +20,16 @@
             this.accessToken = at;
         };
 
+        this.getAccessToken = function () {
+            return this.accessToken;
+        };
+
         this.setRefreshToken = function (rt) {
             this.refreshToken = rt;
+        };
+
+        this.getRefreshToken = function () {
+            return this.refreshToken;
         };
 
         this.getUrl = function (url) {
@@ -43,7 +51,7 @@
                 obj = JSON.parse(json);
             }
             catch (err) {
-                throw 'Invalid ' + description || "" + 'json, got: ' + json;
+                throw 'Invalid ' + (description || "") + 'json, got: ' + json;
             }
 
             return obj;

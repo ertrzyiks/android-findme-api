@@ -33,7 +33,7 @@
                     res.send({
                         access_token: accessToken,
                         refresh_token: refreshToken,
-                        type: 'bearer',
+                        token_type: 'Bearer',
                         expire_time: params.expire_time
                     });
                 });

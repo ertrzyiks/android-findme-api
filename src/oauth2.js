@@ -3,6 +3,7 @@
 
     var oauth2orize = require('oauth2orize'),
         server = oauth2orize.createServer(),
+        passport = require('passport'),
         crypto = require('crypto'),
         async = require('async'),
 
@@ -54,6 +55,11 @@
      * @param {Function} done
      */
     exports.verifyClient = function (client, done) {
+        if (!client) {
+            done('Client can not be empty');
+            return;
+        }
+
         if ('string' !== typeof client) {
             done(null, client);
             return;
@@ -130,6 +136,7 @@
     }));
 
     exports.token = [
+        passport.authenticate(['oauth2-client-password'], { session: false }),
         server.token(),
         server.errorHandler()
     ];

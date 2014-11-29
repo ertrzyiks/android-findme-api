@@ -12,7 +12,7 @@ Feature: Rooms
   Scenario: Fetching list of rooms
     Given I am an API client
     And I join as "Jeremy"
-    When the client requests GET "/api/v1/rooms"
+    When I requests GET "/api/v1/rooms"
     Then the response should be a "200" with JSON:
     """
     [
@@ -36,7 +36,7 @@ Feature: Rooms
   Scenario: Fetching list of public rooms
     Given I am an API client
     And I join as "Jeremy"
-    When the client requests GET "/api/v1/rooms?only_public=true"
+    When I requests GET "/api/v1/rooms?only_public=true"
     Then the response should be a "200" with JSON:
     """
     [
@@ -53,7 +53,7 @@ Feature: Rooms
   Scenario: Creating public room
     Given I am an API client
     And I join as "Jeremy"
-    When the client requests POST "/api/v1/rooms" with data:
+    When I requests POST "/api/v1/rooms" with data:
     """
     {
       "name": "MyPublicRoom"
@@ -73,7 +73,7 @@ Feature: Rooms
   Scenario: Cannot create public room without name
     Given I am an API client
     And I join as "Jeremy"
-    When the client requests POST "/api/v1/rooms" with data:
+    When I requests POST "/api/v1/rooms" with data:
     """
     {}
     """
@@ -88,7 +88,7 @@ Feature: Rooms
   Scenario: Creating private room
     Given I am an API client
     And I join as "Jeremy"
-    When the client requests POST "/api/v1/rooms" with data:
+    When I requests POST "/api/v1/rooms" with data:
     """
     {
       "name": "MyPrivateRoom",

@@ -2,10 +2,30 @@
     'use strict';
 
     var passport = require('passport'),
+        ClientPasswordStrategy = require('passport-oauth2-client-password'),
         BearerStrategy = require('passport-http-bearer').Strategy,
 
         AccessToken = require('./models/access_token'),
-        User = require('./models/user');
+        User = require('./models/user'),
+        Client = require('./models/client');
+
+    passport.use(new ClientPasswordStrategy(function (clientId, clientSecret, done) {
+        Client.where({ _id: clientId }).findOne(function (err, client) {
+            if (err) {
+                return done(err);
+            }
+
+            if (!client) {
+                return done(null, false);
+            }
+
+            if (client.oauth_secret !== clientSecret) {
+                return done(null, false);
+            }
+
+            return done(null, client);
+        });
+    }));
 
     passport.use(new BearerStrategy(
         function (token, done) {
