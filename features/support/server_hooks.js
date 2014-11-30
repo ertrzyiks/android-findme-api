@@ -9,14 +9,13 @@ var myAfterHooks = function () {
 
         app
             .start()
-            .then(function (_server_) {
-                server = _server_;
+            .then(function (data) {
+                server = data.server;
 
                 callback();
             })
             .catch(function (err) {
                 console.log(err);
-
                 callback(err);
             });
     });

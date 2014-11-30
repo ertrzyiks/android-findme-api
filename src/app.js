@@ -52,19 +52,22 @@
             db.on('open', function () {
                 var server = app.listen(port);
 
-                d.resolve(server, port);
+                d.resolve({
+                    server: server,
+                    port: port
+                });
             });
 
             db.on('error', function (err) {
                 d.reject(err);
             });
 
-            return d.promise.then(function (server) {
-                server.on('close', function () {
+            return d.promise.then(function (data) {
+                data.server.on('close', function () {
                     mongoose.disconnect();
                 });
 
-                return server;
+                return data;
             });
         },
 
@@ -72,6 +75,9 @@
             async.parallel([
                 function (next) {
                     mongoose.connection.collections.rooms.drop(next);
+                },
+                function (next) {
+                    mongoose.connection.collections.users.drop(next);
                 }
             ], done);
         }
