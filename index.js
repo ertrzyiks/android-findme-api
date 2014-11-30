@@ -7,8 +7,8 @@
     app.instance.use(express.static(__dirname + '/swagger-ui'));
 
     app.start()
-        .then(function () {
-            console.log('Listening on 3000');
+        .then(function (server, port) {
+            console.log('Listening on ' + port);
         })
         .catch(function (err) {
             console.log(err);

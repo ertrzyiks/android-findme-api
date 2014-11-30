@@ -18,7 +18,8 @@
 
         swagger = require("swagger-node-express").createNew(subapp),
 
-        mongo_config = config.get('mongo');
+        mongo_config = config.get('mongo'),
+        port = config.get('port');
 
     app.use(bodyParser.json());
     app.use(require('./cors'));
@@ -49,9 +50,9 @@
             mongoose.connect(connectionString);
 
             db.on('open', function () {
-                var server = app.listen(3000);
+                var server = app.listen(port);
 
-                d.resolve(server);
+                d.resolve(server, port);
             });
 
             db.on('error', function (err) {
