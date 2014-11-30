@@ -30,6 +30,10 @@
 
             user.save(function (err, u) {
                 oauth2.doAuthenticate(req.clientId, u, function (err, accessToken, refreshToken, params) {
+                    if (err) {
+                        res.send(err);
+                        return;
+                    }
                     res.send({
                         access_token: accessToken,
                         refresh_token: refreshToken,

@@ -22,14 +22,15 @@
 
     app.use(bodyParser.json());
     app.use(require('./cors'));
+    app.use(auth.client);
     app.use('/api/v1', subapp);
     app.use('/oauth/v2/token', oauth2.token);
 
     swagger.addModels(require('./models'));
 
-    subapp.use(auth.client);
+    subapp.use('/room', auth.bearer);
+
     swagger.addPost(require('./controllers/user').post);
-    subapp.use(auth.bearer);
     swagger.addGet(require('./controllers/room').get);
     swagger.addPost(require('./controllers/room').post);
 

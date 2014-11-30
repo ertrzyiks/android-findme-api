@@ -55,7 +55,7 @@
     ));
 
     exports.client = [function (req, res, next) {
-        var authorization = req.headers.authorization;
+        var authorization = req.headers.authorization || "";
 
         if (0 !== authorization.indexOf('Bearer')) {
             req.clientId = req.headers.authorization;
