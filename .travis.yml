@@ -1,8 +1,20 @@
 language: nodejs
 before_script:
-  - npm install
-  - npm install -g grunt-cli
+- npm install
+- npm install -g grunt-cli
 script:
-  - npm test
+- npm test
 services:
-  - mongodb
+- mongodb
+notifications:
+  hipchat:
+    matrix:
+    - 0tBA7Kk07qrpqXVjeDCaZWhSwGmnFJyiuMG7OANq@1014902
+    rooms:
+      secure: HPd5xT1Laqfl3xaIjpYB4GVONmjJEk1H4rWzIFd3lRm0FgPfSnWyOcsjNiNkYsbUJKYBOASYaEf8z+3+jBIio9CS7ms4I/j+rFf7xnBRXbDUuY+jIyOtlc3wNOMMO1CDg/vdDHnUYe+dV56PX+rkWwNHnf+TuWQN6YWWYbh5Uxk=
+deploy:
+  provider: heroku
+  api_key:
+    secure: D8vedsy7JJMoVFSY3gRvFAKsVcIjhRWA9m/ZMUUDDMDAhwMcwwrXmS1FB/AEWQzH6sN+HKDf2eFpgP4ARZsQ3I7XASVW0IR6ocGkGD17LDPM4IWhffSExQHNs3Ixws9/H72tyNQwVdMsJStdNKIiq53khFsohv+VMdQEuZ/Ieoc=
+  app:
+    master: agile-brushlands-2260

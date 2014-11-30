@@ -1,0 +1,8 @@
+{
+    "mongo": {
+        "host": "MONGO_HOST",
+        "dbname": "MONGO_DBNAME",
+        "username": "MONGO_USERNAME",
+        "password": "MONGO_PASSWORD"
+    }
+}
