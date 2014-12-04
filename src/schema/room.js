@@ -4,12 +4,14 @@
     var mongoose = require('mongoose'),
         passwordUtil = require('../util/password'),
         Schema = mongoose.Schema,
+        userReferenceSchema = require('./user_reference'),
         roomSchema = new Schema({
             name: {
                 type: String,
                 required: '{PATH} is required',
                 trim: true
             },
+            users: [userReferenceSchema],
             password: {
                 type: String
             },

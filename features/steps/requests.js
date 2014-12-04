@@ -28,7 +28,7 @@
                 uri: url,
                 body: JSON.stringify(this.parseJSON(postDataString)),
                 headers: {
-                    "Content-Type": "application/json; charset=utf-8"
+                    'Content-Type': 'application/json; charset=utf-8'
                 }
             }, callback);
         });
@@ -43,14 +43,17 @@
 
         this.Then(/^the response should be a "([^"]*)" with JSON:$/, function (statusCode, answer, callback) {
             if (this.response.statusCode !== parseInt(statusCode, 10)) {
-                return callback.fail('Expected status code ' + statusCode + ", but got " + this.response.statusCode);
+                return callback.fail(
+                    'Expected status code ' + statusCode + ", but got " + this.response.statusCode +
+                    ', response: ' + this.responseBody
+                );
             }
 
             var wildcards = {
-                "ROOM_ID": "string",
-                "ACCESS_TOKEN": "string",
-                "REFRESH_TOKEN": "string",
-                "TIMESTAMP": "number"
+                'ROOM_ID': 'string',
+                'ACCESS_TOKEN': 'string',
+                'REFRESH_TOKEN': 'string',
+                'TIMESTAMP': 'number'
             };
 
             if (false === this.areEqualJSONs(this.responseBody, answer, wildcards)) {

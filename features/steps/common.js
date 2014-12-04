@@ -21,12 +21,11 @@
         });
 
         this.Given(/^I join as "([^"]*)"$/, function (username, callback) {
-            var User = this.models.User,
-                user = new User({
-                    username: username
-                });
+            var User = this.models.User;
 
-            user.save(function (err, u) {
+            User.findOne({
+                username: username
+            }, function (err, u) {
                 if (err) {
                     callback(err);
                     return;

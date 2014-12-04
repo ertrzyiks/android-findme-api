@@ -4,6 +4,7 @@
     var q = require('q'),
         async = require('async'),
         express = require('express'),
+        passport = require('passport'),
         bodyParser = require('body-parser'),
         oauth2 = require('./oauth2'),
         auth = require('./auth'),
@@ -29,11 +30,15 @@
 
     swagger.addModels(require('./models'));
 
-    subapp.use('/room', auth.bearer);
+    subapp.use(passport.initialize());
+    subapp.use(/^\/rooms\/?(.*)/, auth.bearer);
 
     swagger.addPost(require('./controllers/user').post);
-    swagger.addGet(require('./controllers/room').get);
+    swagger.addGet(require('./controllers/room').getList);
+    swagger.addGet(require('./controllers/room').getById);
+    swagger.addGet(require('./controllers/room').getUsers);
     swagger.addPost(require('./controllers/room').post);
+    swagger.addPost(require('./controllers/room').postUser);
 
     swagger.configureSwaggerPaths('', '/doc', '');
     swagger.configure('/api/v1', require('../package.json').version);
@@ -78,6 +83,15 @@
                 },
                 function (next) {
                     mongoose.connection.collections.users.drop(next);
+                },
+                function (next) {
+                    mongoose.connection.collections.clients.drop(next);
+                },
+                function (next) {
+                    mongoose.connection.collections.accesstokens.drop(next);
+                },
+                function (next) {
+                    mongoose.connection.collections.refreshtokens.drop(next);
                 }
             ], done);
         }

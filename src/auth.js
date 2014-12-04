@@ -9,6 +9,14 @@
         User = require('./models/user'),
         Client = require('./models/client');
 
+    passport.serializeUser(function (user, done) {
+        done(null, user);
+    });
+
+    passport.deserializeUser(function (obj, done) {
+        done(null, obj);
+    });
+
     passport.use(new ClientPasswordStrategy(function (clientId, clientSecret, done) {
         Client.where({ _id: clientId }).findOne(function (err, client) {
             if (err) {
@@ -65,6 +73,6 @@
     }];
 
     exports.bearer = [
-        passport.authenticate('bearer', { session: false })
+        passport.authenticate('bearer')
     ];
 })(module.exports);

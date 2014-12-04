@@ -17,6 +17,7 @@
                     }
                 }
             },
+
             RoomDisplayable: {
                 id: 'RoomDisplayable',
                 required: ['id', 'name', 'is_public'],
@@ -35,13 +36,25 @@
                     }
                 }
             },
+
             User: {
                 id: 'User',
-                required: ['name'],
+                required: ['username'],
                 properties: {
                     username: {
                         type: 'string',
                         description: 'User public name'
+                    }
+                }
+            },
+
+            UserRef: {
+                id: 'UserRef',
+                required: ['id'],
+                properties: {
+                    id: {
+                        type: 'string',
+                        description: 'User id'
                     }
                 }
             }

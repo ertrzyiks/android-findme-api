@@ -3,6 +3,11 @@ Feature: Users
   I want to authenticate
   So that I can recieve personalized experience
 
+  Background:
+    Given there are following users:
+      |             _id          | username      |
+      | 507f1f77bcf86cd799439011 | Jeremy        |
+
   Scenario: Signin up
     Given I am an API client
     When I requests POST "/api/v1/users" with data:

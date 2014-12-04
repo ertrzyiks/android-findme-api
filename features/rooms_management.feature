@@ -4,10 +4,29 @@ Feature: Rooms
   So that I can share my position with others
 
   Background:
-    Given there are following rooms:
-      | name      |  password  | created_at | updated_at |
-      | Room #1   |            |     0      |     0      |
-      | Room #2   |     123    |     0      |     0      |
+    Given there are following users:
+      |             _id          | username      |
+      | 507f1f77bcf86cd799439011 | Jeremy        |
+
+    And there are following rooms:
+      |             _id          | name      |  password  | created_at | updated_at |
+      | 507f1f77bcf86cd799439031 | Room #1   |            |     0      |     0      |
+      | 507f1f77bcf86cd799439032 | Room #2   |     123    |     0      |     0      |
+
+  Scenario: Fetching single room
+    Given I am an API client
+    And I join as "Jeremy"
+    When I requests GET "/api/v1/rooms/507f1f77bcf86cd799439031"
+    Then the response should be a "200" with JSON:
+    """
+    {
+      "id": "ROOM_ID",
+      "name": "Room #1",
+      "is_public": true,
+      "created_at": "TIMESTAMP",
+      "updated_at": "TIMESTAMP"
+    }
+    """
 
   Scenario: Fetching list of rooms
     Given I am an API client

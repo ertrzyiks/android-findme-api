@@ -6,7 +6,8 @@
 
         Room = require('../../src/models/room.js'),
         Client = require('../../src/models/client.js'),
-        User = require('../../src/models/user.js');
+        User = require('../../src/models/user.js'),
+        AccessToken = require('../../src/models/access_token.js');
 
     exports.World = function World(done) {
         this.baseUrl = 'http://127.0.0.1:3000';
@@ -15,6 +16,7 @@
         this.models.Room = Room;
         this.models.Client = Client;
         this.models.User = User;
+        this.models.AccessToken = AccessToken;
 
         this.setAccessToken = function (at) {
             this.accessToken = at;
