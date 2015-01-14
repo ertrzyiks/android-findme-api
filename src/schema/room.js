@@ -11,7 +11,11 @@
                 required: '{PATH} is required',
                 trim: true
             },
-            users: [userReferenceSchema],
+            users: {
+                type: [userReferenceSchema],
+                default: [],
+                select: false
+            },
             password: {
                 type: String
             },

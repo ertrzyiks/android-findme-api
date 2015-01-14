@@ -71,6 +71,9 @@
                     return;
                 }
 
+                var undef;
+                model.set('users', undef);
+
                 res.send(model);
             });
         }
@@ -121,7 +124,7 @@
             ]
         },
         'action': function (req, res) {
-            Room.findById(req.params.roomId, function (err, room) {
+            Room.findById(req.params.roomId, { users: 1 }, function (err, room) {
                 if (err) {
                     res.status(500).send('');
                 }
@@ -160,7 +163,7 @@
 
             var userId = new ObjectId(req.body.id);
 
-            Room.findById(req.params.roomId, function (err, room) {
+            Room.findById(req.params.roomId, { users: 1 }, function (err, room) {
                 if (err) {
                     res.status(500).send('');
                 }
